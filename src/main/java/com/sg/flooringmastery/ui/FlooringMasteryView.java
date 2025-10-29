@@ -1,18 +1,22 @@
 package com.sg.flooringmastery.ui;
 
 import com.sg.flooringmastery.model.Order;
+import com.sg.flooringmastery.model.Product;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class FlooringMasteryView {
 
 
     private UserIO io = new UserIOConsoleImpl();
+
 
     public FlooringMasteryView(UserIO io) {
         this.io = io;
@@ -44,6 +48,7 @@ public class FlooringMasteryView {
     public Order getNewOrderInfo() {
         String name = io.readString("Enter customer name: ");
         String state = io.readString("Enter state: ");
+
         String product = io.readString("Enter product type: ");
         BigDecimal area = io.readBigDecimal("Enter area in sq ft (Minimum order of 100): ");
 
@@ -81,6 +86,7 @@ public class FlooringMasteryView {
     public void displayMessage(String message) {
         io.print(message);
     }
+
 
 
     //Unused

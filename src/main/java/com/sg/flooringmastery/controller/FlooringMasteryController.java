@@ -4,6 +4,7 @@ import com.sg.flooringmastery.dao.ExportDao;
 import com.sg.flooringmastery.model.Order;
 import com.sg.flooringmastery.service.FlooringMasteryValidationException;
 import com.sg.flooringmastery.service.OrderService;
+import com.sg.flooringmastery.service.ProductService;
 import com.sg.flooringmastery.ui.FlooringMasteryView;
 import com.sg.flooringmastery.ui.UserIO;
 import com.sg.flooringmastery.ui.UserIOConsoleImpl;
