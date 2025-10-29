@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
+//Handles data access for orders.
 @Component
 public class OrderDaoImpl implements OrderDao{
 
@@ -97,8 +97,6 @@ public class OrderDaoImpl implements OrderDao{
         }
         return orders;
     }
-
-    // ===================== Helper Methods =====================
 
     private void loadOrdersForDate(LocalDate date) {
         // Avoid re-loading the same date multiple times

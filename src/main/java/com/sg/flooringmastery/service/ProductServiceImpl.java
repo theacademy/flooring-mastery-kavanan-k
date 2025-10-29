@@ -56,6 +56,7 @@ public class ProductServiceImpl implements ProductService{
         return product;
     }
 
+    //Obtains a map of products for easy lookup
     public Map<String, Product> getAllProducts() {
         return productMap;
     }

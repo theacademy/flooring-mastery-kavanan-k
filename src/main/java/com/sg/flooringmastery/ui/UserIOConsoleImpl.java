@@ -224,6 +224,11 @@ public class UserIOConsoleImpl implements UserIO {
         return result;
     }
 
+
+
+
+    // For the sake of handling BigDecimals and LocalDates easier:
+
     @Override
     public BigDecimal readBigDecimal(String prompt) {
         while (true) {

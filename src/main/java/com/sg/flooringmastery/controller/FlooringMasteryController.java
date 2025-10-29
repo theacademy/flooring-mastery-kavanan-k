@@ -29,6 +29,8 @@ public class FlooringMasteryController {
         this.exportDao = exportDao;
     }
 
+    //Controls the menu (in terminal)
+
     public void run() {
         boolean keepGoing = true;
         int menuSelection = 0;
@@ -60,19 +62,24 @@ public class FlooringMasteryController {
             }
 
         }
-        io.print("GOOD BYE");
+        io.print("Farewell");
     }
 
+
+    //Fetches the user's input
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
     }
 
+    //Triggers code responsible for displaying the orders for the inputted date
     private void displayOrders() {
         LocalDate date = view.getOrderDate();
         List<Order> orders = service.getOrdersForDate(date);
         view.displayOrderList(orders);
     }
 
+
+    //Triggers code to add orders and display message if successful
     private void addOrder() {
         try {
             Order newOrder = view.getNewOrderInfo();
@@ -83,6 +90,7 @@ public class FlooringMasteryController {
         }
     }
 
+    //Triggers code to edit orders
     private void editOrder() {
         LocalDate date = view.getOrderDate();
         int orderNumber = view.getOrderNumber();
@@ -114,6 +122,7 @@ public class FlooringMasteryController {
         }
     }
 
+    //Saves all current orders to Backup/Backup.txt
     private void exportAllOrders() {
         try {
             Map<LocalDate, Map<Integer, Order>> allOrders = service.getAllOrdersByDate();

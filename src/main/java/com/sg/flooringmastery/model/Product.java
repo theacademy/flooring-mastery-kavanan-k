@@ -16,7 +16,6 @@ public class Product {
     }
 
 
-
     public String getProductType() {
         return productType;
     }

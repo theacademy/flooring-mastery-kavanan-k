@@ -34,8 +34,8 @@ public class TaxServiceImpl implements TaxService{
                     String[] parts = line.split(DELIMITER);
                     if (parts.length >= 2) {
                         try {
-                            String state = parts[0].trim(); // first column = state code
-                            BigDecimal taxRate = new BigDecimal(parts[parts.length - 1].trim()); // last column = tax rate
+                            String state = parts[0].trim(); // Gets the first column (State)
+                            BigDecimal taxRate = new BigDecimal(parts[parts.length - 1].trim()); // Gets the final column (tax rate)
                             Tax tax = new Tax(state, taxRate);
                             taxMap.put(state, tax);
                         } catch (NumberFormatException e) {
@@ -61,7 +61,7 @@ public class TaxServiceImpl implements TaxService{
         }
         return tax;
     }
-
+    //Obtain a map for easy lookups
     public Map<String, Tax> getAllTaxes() {
         return taxMap;
     }

@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+
+//Service Layer for orders.
 
 @Component
 public class OrderServiceImpl implements OrderService {
@@ -62,8 +65,7 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.getAllOrders(); // calls your existing DAO method
     }
 
-
-
+    //Ensure that entries for customer name, state, product and area are all valid - not null and for area also > 100,
     private void validateOrderData(Order order) throws FlooringMasteryValidationException{
         if (order.getCustomerName() == null || order.getCustomerName().trim().isEmpty()) {
             throw new FlooringMasteryValidationException("Customer name is required.");
@@ -79,6 +81,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
     private void calculateCosts(Order order) {
         Product product = productService.getProduct(order.getProductType());
         Tax tax = taxService.getTax(order.getState());
@@ -90,8 +93,9 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal materialCost = area.multiply(costPerSqFt);
         BigDecimal laborCost = area.multiply(laborPerSqFt);
         BigDecimal subTotal = materialCost.add(laborCost);
-        BigDecimal taxAmt = subTotal.multiply(tax.getTaxRate().divide(new BigDecimal("100")));
-        BigDecimal total = subTotal.add(taxAmt);
+        BigDecimal taxAmt = subTotal.multiply(tax.getTaxRate().divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP))
+                .setScale(2, RoundingMode.HALF_UP);
+        BigDecimal total = subTotal.add(taxAmt).setScale(2, RoundingMode.HALF_UP);
 
         order.setTaxRate(tax.getTaxRate());
         order.setCostPerSquareFoot(costPerSqFt);

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+//Handles the export all feature.
 @Component
 public class ExportDaoImpl implements ExportDao {
 
@@ -19,7 +20,6 @@ public class ExportDaoImpl implements ExportDao {
     @Override
     public void exportAllOrders(Map<LocalDate, Map<Integer, Order>> allOrders) {
         try (PrintWriter out = new PrintWriter(new FileWriter(EXPORT_FILE))) {
-            // Header
             out.println("OrderNumber,CustomerName,State,TaxRate,ProductType,Area," +
                     "CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total,OrderDate");
 

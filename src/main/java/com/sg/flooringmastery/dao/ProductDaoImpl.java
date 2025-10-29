@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.*;
 
+//Handles data access for products. IntelliJ doesnt seem to notice that Spring is using the class?
 @Component
 public class ProductDaoImpl implements ProductDao {
 
@@ -40,7 +41,7 @@ public class ProductDaoImpl implements ProductDao {
             throw new RuntimeException("Could not load product data.", e);
         }
 
-        // skip header
+        // skip first line which contains the column headers
         if (scanner.hasNextLine()) {
             scanner.nextLine();
         }

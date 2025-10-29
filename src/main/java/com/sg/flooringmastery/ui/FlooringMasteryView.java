@@ -4,6 +4,7 @@ import com.sg.flooringmastery.model.Order;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,8 +18,11 @@ public class FlooringMasteryView {
         this.io = io;
     }
 
+    //Generate the menu
+
     public int printMenuAndGetSelection() {
-        io.print("Flooring Program");
+        io.print("*************************************************************************");
+        io.print("Floor Time.");
         io.print("1. Display orders");
         io.print("2. Add a new order");
         io.print("3. Edit an order");
@@ -30,18 +34,18 @@ public class FlooringMasteryView {
     }
 
     public LocalDate getOrderDate() {
-        return io.readLocalDate("Enter order date (MMDDYYYY): ");
+        return io.readLocalDate("Enter the order date with no spaces (MMDDYYYY): ");
     }
 
     public int getOrderNumber() {
-        return io.readInt("Enter order number: ");
+        return io.readInt("Enter the order number: ");
     }
 
     public Order getNewOrderInfo() {
         String name = io.readString("Enter customer name: ");
         String state = io.readString("Enter state: ");
         String product = io.readString("Enter product type: ");
-        BigDecimal area = io.readBigDecimal("Enter area in sq ft: ");
+        BigDecimal area = io.readBigDecimal("Enter area in sq ft (Minimum order of 100): ");
 
         Order order = new Order();
         order.setCustomerName(name);
@@ -54,9 +58,9 @@ public class FlooringMasteryView {
 
     public Order getEditedOrder(Order existingOrder) {
         String name = io.readString("Enter customer name (" + existingOrder.getCustomerName() + "): ");
-        String state = io.readString("Enter state (" + existingOrder.getState() + "): ");
+        String state = io.readString("Enter the state (" + existingOrder.getState() + "): ");
         String product = io.readString("Enter product type (" + existingOrder.getProductType() + "): ");
-        String areaInput = io.readString("Enter area (" + existingOrder.getArea() + "): ");
+        String areaInput = io.readString("Enter area (minimum of 100) (" + existingOrder.getArea() + "): ");
 
         Order updatedOrder = new Order(existingOrder.getOrderNumber());
         updatedOrder.setOrderDate(existingOrder.getOrderDate());
@@ -69,7 +73,7 @@ public class FlooringMasteryView {
 
     public void displayOrderList(List<Order> orders) {
         for (Order o : orders) {
-            io.print(o.getOrderNumber() + ": " + o.getCustomerName() + " | " + o.getProductType() + " | $" + o.getTotal());
+            io.print(o.getOrderNumber() + ": " + o.getCustomerName() + " | " + o.getProductType() + " | $" + o.getTotal().setScale(2, RoundingMode.HALF_UP));
         }
         io.readString("Press Enter to continue...");
     }
@@ -78,12 +82,14 @@ public class FlooringMasteryView {
         io.print(message);
     }
 
+
+    //Unused
     public void displayExportSuccessMessage() {
         System.out.println("All orders have been exported successfully!");
     }
 
     public void displayExportErrorMessage(String msg) {
-        System.out.println("Error exporting orders: " + msg);
+        System.out.println("There was an error exporting orders: " + msg);
     }
 
 }

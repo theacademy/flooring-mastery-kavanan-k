@@ -9,6 +9,10 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.*;
 
+
+//IntelliJ sometimes struggles to realise the class is being used by Spring?
+
+//Handles data access for tax
 @Component
 public class TaxDaoImpl implements TaxDao{
 
@@ -38,7 +42,7 @@ public class TaxDaoImpl implements TaxDao{
             throw new RuntimeException("Couldn't load tax data.", e);
         }
 
-        // skip header
+        // Skip the first line that contains column headers
         if (scanner.hasNextLine()) {
             scanner.nextLine();
         }
