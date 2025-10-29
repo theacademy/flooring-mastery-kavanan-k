@@ -1,6 +1,7 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.model.Order;
+import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Component
 public class ExportDaoImpl implements ExportDao {
 
     private static final String EXPORT_FILE = "Backup/Backup.txt";

@@ -5,18 +5,22 @@ import com.sg.flooringmastery.dao.OrderDao;
 import com.sg.flooringmastery.model.Order;
 import com.sg.flooringmastery.model.Product;
 import com.sg.flooringmastery.model.Tax;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class OrderServiceImpl implements OrderService {
 
     private final OrderDao orderDao;
     private final ProductService productService;
     private final TaxService taxService;
 
+    @Autowired
     public OrderServiceImpl(OrderDao orderDao, ProductService productService, TaxService taxService) {
         this.orderDao = orderDao;
         this.productService = productService;

@@ -1,11 +1,13 @@
 package com.sg.flooringmastery.ui;
 
 import com.sg.flooringmastery.model.Order;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Component
 public class FlooringMasteryView {
 
 

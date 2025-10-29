@@ -1,6 +1,7 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.model.Order;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -8,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+
+@Component
 public class OrderDaoImpl implements OrderDao{
 
 

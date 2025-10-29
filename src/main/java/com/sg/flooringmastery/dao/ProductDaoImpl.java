@@ -1,6 +1,7 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.model.Product;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -8,6 +9,7 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.*;
 
+@Component
 public class ProductDaoImpl implements ProductDao {
 
     private static final String PRODUCT_FILE = "Data/Products.txt";

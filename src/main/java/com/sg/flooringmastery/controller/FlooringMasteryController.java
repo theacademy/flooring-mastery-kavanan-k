@@ -7,10 +7,14 @@ import com.sg.flooringmastery.service.OrderService;
 import com.sg.flooringmastery.ui.FlooringMasteryView;
 import com.sg.flooringmastery.ui.UserIO;
 import com.sg.flooringmastery.ui.UserIOConsoleImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
 
+
+@Component
 public class FlooringMasteryController {
 
     private FlooringMasteryView view;
@@ -18,6 +22,7 @@ public class FlooringMasteryController {
     private UserIO io = new UserIOConsoleImpl();
     private ExportDao exportDao;
 
+    @Autowired
     public FlooringMasteryController(FlooringMasteryView view, OrderService service, ExportDao exportDao){
         this.view = view;
         this.service = service;
