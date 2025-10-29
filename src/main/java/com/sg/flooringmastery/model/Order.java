@@ -1,6 +1,7 @@
 package com.sg.flooringmastery.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ public class Order {
     private int orderNumber;
     private String customerName;
     private String state;
-    private Date orderDate;
+    private LocalDate orderDate;
     private BigDecimal taxRate;
     private String productType;
     private BigDecimal costPerSquareFoot;
@@ -21,12 +22,14 @@ public class Order {
     private BigDecimal total;
 
 
-    public Order(int orderNumber){
+    public Order(int orderNumber) {
         this.orderNumber = orderNumber;
     }
 
-
     //Setters
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
@@ -36,7 +39,7 @@ public class Order {
         this.state = state;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -91,7 +94,7 @@ public class Order {
         return state;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 

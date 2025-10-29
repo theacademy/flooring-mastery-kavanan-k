@@ -10,6 +10,11 @@ public class Tax {
     private BigDecimal taxRate;
 
 
+    public Tax(String stateAbr, BigDecimal taxRate) {
+        this.stateAbr = stateAbr;
+        this.taxRate = taxRate;
+    }
+
     public void setState(String state) {
         this.state = state;
     }

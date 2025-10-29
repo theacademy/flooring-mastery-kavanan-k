@@ -1,4 +1,52 @@
 package com.sg.flooringmastery.dao;
 
-public class ExportDaoImpl {
+import com.sg.flooringmastery.model.Order;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+public class ExportDaoImpl implements ExportDao {
+
+    private static final String EXPORT_FILE = "Backup.txt";
+    private static final String DELIMITER = ",";
+
+    @Override
+    public void exportAllOrders(Map<LocalDate, Map<Integer, Order>> allOrders) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(EXPORT_FILE))) {
+            // Header
+            out.println("OrderNumber,CustomerName,State,TaxRate,ProductType,Area," +
+                    "CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total,OrderDate");
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+            for (LocalDate date : allOrders.keySet()) {
+                Map<Integer, Order> ordersForDate = allOrders.get(date);
+                for (Order order : ordersForDate.values()) {
+                    String line = order.getOrderNumber() + DELIMITER +
+                            order.getCustomerName() + DELIMITER +
+                            order.getState() + DELIMITER +
+                            order.getTaxRate() + DELIMITER +
+                            order.getProductType() + DELIMITER +
+                            order.getArea() + DELIMITER +
+                            order.getCostPerSquareFoot() + DELIMITER +
+                            order.getLaborCostPerSquareFoot() + DELIMITER +
+                            order.getMaterialCost() + DELIMITER +
+                            order.getLaborCost() + DELIMITER +
+                            order.getTax() + DELIMITER +
+                            order.getTotal() + DELIMITER +
+                            formatter.format(order.getOrderDate().toInstant()
+                                    .atZone(java.time.ZoneId.systemDefault())
+                                    .toLocalDate());
+                    out.println(line);
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Could not export orders.", e);
+        }
+    }
 }

@@ -1,26 +1,20 @@
 package com.sg.flooringmastery.controller;
 
+import com.sg.flooringmastery.ui.FlooringMasteryView;
 import com.sg.flooringmastery.ui.UserIO;
 import com.sg.flooringmastery.ui.UserIOConsoleImpl;
 
 public class FlooringMasteryController {
 
+    private FlooringMasteryView view = new FlooringMasteryView();
     private UserIO io = new UserIOConsoleImpl();
 
     public void run() {
         boolean keepGoing = true;
         int menuSelection = 0;
         while (keepGoing) {
-            io.print("Flooring Program");
-            io.print("1. Display orders");
-            io.print("2. Add a new order");
-            io.print("3. Edit an order");
-            io.print("4. Remove an order");
-            io.print("5. Export all data");
-            io.print("6. Quit");
 
-            menuSelection = io.readInt("Please select from the"
-                    + " above choices.", 1, 5);
+            menuSelection = getMenuSelection();
 
             switch (menuSelection) {
                 case 1:
@@ -47,6 +41,10 @@ public class FlooringMasteryController {
 
         }
         io.print("GOOD BYE");
+    }
+
+    private int getMenuSelection() {
+        return view.printMenuAndGetSelection();
     }
 
 }
