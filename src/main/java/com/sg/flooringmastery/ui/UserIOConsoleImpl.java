@@ -12,11 +12,16 @@
  */
 
 package com.sg.flooringmastery.ui;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class UserIOConsoleImpl implements UserIO {
 
     final private Scanner console = new Scanner(System.in);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
 
     /**
      *
@@ -215,4 +220,29 @@ public class UserIOConsoleImpl implements UserIO {
         return result;
     }
 
+    @Override
+    public BigDecimal readBigDecimal(String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                String input = console.nextLine();
+                return new BigDecimal(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid decimal number. Please try again.");
+            }
+        }
+    }
+
+    @Override
+    public LocalDate readLocalDate(String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                String input = console.nextLine();
+                return LocalDate.parse(input, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use MMDDYYYY.");
+            }
+        }
+    }
 }

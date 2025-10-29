@@ -10,7 +10,7 @@ import java.util.*;
 
 public class TaxDaoImpl implements TaxDao{
 
-    private final String TAX_FILE = "Taxes.txt";
+    private final String TAX_FILE = "Data/Taxes.txt";
     private final String DELIMITER = ",";
     private Map<String, Tax> taxes = new HashMap<>();
 
@@ -33,7 +33,7 @@ public class TaxDaoImpl implements TaxDao{
         try {
             scanner = new Scanner(new BufferedReader(new FileReader(TAX_FILE)));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("Could not load tax data.", e);
+            throw new RuntimeException("Couldn't load tax data.", e);
         }
 
         // skip header

@@ -26,6 +26,10 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
+    public Order(){
+        //empty
+    }
+
     //Setters
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;

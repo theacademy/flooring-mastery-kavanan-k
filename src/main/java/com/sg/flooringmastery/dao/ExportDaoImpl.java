@@ -11,7 +11,7 @@ import java.util.*;
 
 public class ExportDaoImpl implements ExportDao {
 
-    private static final String EXPORT_FILE = "Backup.txt";
+    private static final String EXPORT_FILE = "Backup/Backup.txt";
     private static final String DELIMITER = ",";
 
     @Override
@@ -38,9 +38,7 @@ public class ExportDaoImpl implements ExportDao {
                             order.getLaborCost() + DELIMITER +
                             order.getTax() + DELIMITER +
                             order.getTotal() + DELIMITER +
-                            formatter.format(order.getOrderDate().toInstant()
-                                    .atZone(java.time.ZoneId.systemDefault())
-                                    .toLocalDate());
+                            formatter.format(order.getOrderDate());
                     out.println(line);
                 }
             }

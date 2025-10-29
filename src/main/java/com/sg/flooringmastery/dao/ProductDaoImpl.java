@@ -10,7 +10,7 @@ import java.util.*;
 
 public class ProductDaoImpl implements ProductDao {
 
-    private static final String PRODUCT_FILE = "Products.txt";
+    private static final String PRODUCT_FILE = "Data/Products.txt";
     private static final String DELIMITER = ",";
     private Map<String, Product> products = new HashMap<>();
 

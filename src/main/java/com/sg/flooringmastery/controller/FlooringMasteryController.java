@@ -1,13 +1,28 @@
 package com.sg.flooringmastery.controller;
 
+import com.sg.flooringmastery.dao.ExportDao;
+import com.sg.flooringmastery.model.Order;
+import com.sg.flooringmastery.service.FlooringMasteryValidationException;
+import com.sg.flooringmastery.service.OrderService;
 import com.sg.flooringmastery.ui.FlooringMasteryView;
 import com.sg.flooringmastery.ui.UserIO;
 import com.sg.flooringmastery.ui.UserIOConsoleImpl;
 
+import java.time.LocalDate;
+import java.util.*;
+
 public class FlooringMasteryController {
 
-    private FlooringMasteryView view = new FlooringMasteryView();
+    private FlooringMasteryView view;
+    private OrderService service;
     private UserIO io = new UserIOConsoleImpl();
+    private ExportDao exportDao;
+
+    public FlooringMasteryController(FlooringMasteryView view, OrderService service, ExportDao exportDao){
+        this.view = view;
+        this.service = service;
+        this.exportDao = exportDao;
+    }
 
     public void run() {
         boolean keepGoing = true;
@@ -18,19 +33,19 @@ public class FlooringMasteryController {
 
             switch (menuSelection) {
                 case 1:
-                    io.print("display");
+                    displayOrders();
                     break;
                 case 2:
-                    io.print("add");
+                    addOrder();
                     break;
                 case 3:
-                    io.print("edit");
+                    editOrder();
                     break;
                 case 4:
-                    io.print("remove");
+                    removeOrder();
                     break;
                 case 5:
-                    io.print("export");
+                    exportAllOrders();
                     break;
                 case 6:
                     keepGoing = false;
@@ -45,6 +60,63 @@ public class FlooringMasteryController {
 
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
+    }
+
+    private void displayOrders() {
+        LocalDate date = view.getOrderDate();
+        List<Order> orders = service.getOrdersForDate(date);
+        view.displayOrderList(orders);
+    }
+
+    private void addOrder() {
+        try {
+            Order newOrder = view.getNewOrderInfo();
+            service.createOrder(newOrder);
+            view.displayMessage("Order successfully added.");
+        } catch (FlooringMasteryValidationException e) {
+            view.displayMessage(e.getMessage());
+        }
+    }
+
+    private void editOrder() {
+        LocalDate date = view.getOrderDate();
+        int orderNumber = view.getOrderNumber();
+        Order existingOrder = service.getOrder(date, orderNumber);
+
+        if (existingOrder == null) {
+            view.displayMessage("No order found for that date and number.");
+            return;
+        }
+
+        Order updatedOrder = view.getEditedOrder(existingOrder);
+        try {
+            service.editOrder(date, orderNumber, updatedOrder);
+            view.displayMessage("Order successfully updated.");
+        } catch (FlooringMasteryValidationException e) {
+            view.displayMessage(e.getMessage());
+        }
+    }
+
+    private void removeOrder() {
+        LocalDate date = view.getOrderDate();
+        int orderNumber = view.getOrderNumber();
+
+        Order removed = service.removeOrder(date, orderNumber);
+        if (removed != null) {
+            view.displayMessage("Order removed.");
+        } else {
+            view.displayMessage("No order found.");
+        }
+    }
+
+    private void exportAllOrders() {
+        try {
+            Map<LocalDate, Map<Integer, Order>> allOrders = service.getAllOrdersByDate();
+            exportDao.exportAllOrders(allOrders);
+            view.displayMessage("All orders have been exported successfully!");
+        } catch (Exception e) {
+            view.displayMessage("Failed to export orders: " + e.getMessage());
+        }
     }
 
 }

@@ -1,5 +1,8 @@
 package com.sg.flooringmastery.ui;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 public interface UserIO {
     void print(String msg);
 
@@ -20,4 +23,8 @@ public interface UserIO {
     long readLong(String prompt, long min, long max);
 
     String readString(String prompt);
+
+    BigDecimal readBigDecimal(String prompt);
+
+    LocalDate readLocalDate(String prompt);
 }
