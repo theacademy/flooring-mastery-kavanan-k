@@ -24,9 +24,15 @@ public class OrderDaoImpl implements OrderDao{
     public Order addOrder(Order order) {
         LocalDate date = order.getOrderDate();
         loadOrdersForDate(date);
+        Map<Integer, Order> ordersForDate = orders.getOrDefault(date, new HashMap<>());
 
-        orders.putIfAbsent(date, new HashMap<>());
-        orders.get(date).put(order.getOrderNumber(), order);
+        int nextOrderNumber = ordersForDate.keySet().stream()
+                .max(Integer::compareTo)
+                .orElse(0) + 1;
+        order.setOrderNumber(nextOrderNumber);
+
+        ordersForDate.put(order.getOrderNumber(), order);
+        orders.put(date, ordersForDate);
 
         writeOrdersForDate(date);
         return order;
