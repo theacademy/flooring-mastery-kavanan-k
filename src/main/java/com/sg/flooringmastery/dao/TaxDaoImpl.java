@@ -1,4 +1,4 @@
 package com.sg.flooringmastery.dao;
 
-public interface FlooringMasteryDao {
+public class TaxDaoImpl {
 }
