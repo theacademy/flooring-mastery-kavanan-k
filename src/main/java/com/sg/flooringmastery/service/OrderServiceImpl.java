@@ -105,4 +105,38 @@ public class OrderServiceImpl implements OrderService {
         order.setTax(taxAmt);
         order.setTotal(total);
     }
+
+    @Override
+    public boolean isValidCustomerName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return false;
+        }
+        return name.matches("[a-zA-Z0-9., ]+");
+    }
+
+    @Override
+    public boolean isValidState(String state) {
+        try {
+            taxService.getTax(state);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isValidProduct(String productType) {
+        try {
+            productService.getProduct(productType);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isValidArea(BigDecimal area) {
+        return area != null && area.compareTo(new BigDecimal("100")) >= 0;
+    }
+
 }
