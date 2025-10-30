@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,28 @@ public class FlooringMasteryView {
 
     public Order getNewOrderInfo() {
 
-        //Validate each line the user inputs
+        //Validate each line the user inputs.
+
+        //The date must be in an American format = MMDDYYYY, no spaces, and it must be in the future. No same-day delivery yet.
+        LocalDate orderDate = null;
+        boolean validDate = false;
+        while (!validDate) {
+            try {
+                String dateInput = io.readString("Let's choose a date - Must be in the future/No same-day delivery: (MMDDYYYY): ");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
+                orderDate = LocalDate.parse(dateInput, formatter);
+
+                if (!orderDate.isAfter(LocalDate.now())) {
+                    io.print("The date must be in the future. Please try again.");
+                } else {
+                    validDate = true;
+                }
+            } catch (Exception e) {
+                io.print("Invalid date. Please use MMDDYYYY, with no spaces.");
+            }
+        }
+
+        //Name must be not empty, a-z regardless of capitals, 0-9, commas and periods/full-stops.
         String name;
         do {
             name = io.readString("Enter customer name: ").trim();
@@ -59,6 +81,7 @@ public class FlooringMasteryView {
             }
         } while (!service.isValidCustomerName(name));
 
+        //State must be an abbreviation and in the Taxes file.
         String state;
         do {
             state = io.readString("Enter state abbreviation (eg. TX, WA, KY, CA): ").trim();
@@ -67,6 +90,7 @@ public class FlooringMasteryView {
             }
         } while (!service.isValidState(state));
 
+        //Must be a listed product type
         String product;
         do {
             product = io.readString("Please choose a product type. Available options are:  \nWood, costing 5.15 per sqft and 4.75 for installation per sqft. \nTile, costing 3.50 per sqft and 4.15 for installation per sqft. \nLaminate, costing 1.75 per sqft and 2.10 for installation per sqft. \nCarpet, costing 2.25 per sqft and 2.10 for installation per sqft. ").trim();
@@ -75,6 +99,7 @@ public class FlooringMasteryView {
             }
         } while (!service.isValidProduct(product));
 
+        //Area must be greater than 100 and valid.
         BigDecimal area;
         do {
             area = io.readBigDecimal("Enter area in sq ft (Minimum order of 100): ");
@@ -86,15 +111,16 @@ public class FlooringMasteryView {
 
         //Add the new order
         Order order = new Order();
+        order.setOrderDate(orderDate);
         order.setCustomerName(name);
         order.setState(state);
         order.setProductType(product);
         order.setArea(area);
-        order.setOrderDate(LocalDate.now());
 
         return order;
     }
 
+    //Edits the order. Uses similar validation to adding orders, but notably cannot change the order date.
     public Order getEditedOrder(Order existingOrder) {
 
         String name;
@@ -172,15 +198,20 @@ public class FlooringMasteryView {
         io.print(message);
     }
 
-
-
-    //Unused
-    public void displayExportSuccessMessage() {
-        System.out.println("All orders have been exported successfully!");
+    public void displayOrderSummary(Order order) {
+        io.print("\n****** ORDER CONFIRMED *****");
+        io.print("Order Number: " + order.getOrderNumber());
+        io.print("Customer Name: " + order.getCustomerName());
+        io.print("State: " + order.getState() + " (Tax Rate: " + order.getTaxRate() + "%)");
+        io.print("Product Type: " + order.getProductType());
+        io.print("Area: " + order.getArea() + " sq ft");
+        io.print("Material Cost: $" + order.getMaterialCost().setScale(2, RoundingMode.HALF_UP));
+        io.print("Labor Cost: $" + order.getLaborCost().setScale(2, RoundingMode.HALF_UP));
+        io.print("Tax: $" + order.getTax().setScale(2, RoundingMode.HALF_UP));
+        io.print("Total: $" + order.getTotal().setScale(2, RoundingMode.HALF_UP));
+        io.print("Order Date: " + order.getOrderDate());
+        io.print("Thank you for using this service!\n---------------------------------------------");
     }
 
-    public void displayExportErrorMessage(String msg) {
-        System.out.println("There was an error exporting orders: " + msg);
-    }
 
 }

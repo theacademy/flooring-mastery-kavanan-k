@@ -85,7 +85,7 @@ public class FlooringMasteryController {
         try {
             Order newOrder = view.getNewOrderInfo();
             service.createOrder(newOrder);
-            view.displayMessage("Order successfully added.");
+            view.displayOrderSummary(newOrder);
         } catch (FlooringMasteryValidationException e) {
             view.displayMessage(e.getMessage());
         }
@@ -105,7 +105,7 @@ public class FlooringMasteryController {
         Order updatedOrder = view.getEditedOrder(existingOrder);
         try {
             service.editOrder(date, orderNumber, updatedOrder);
-            view.displayMessage("Order successfully updated.");
+            view.displayOrderSummary(updatedOrder);
         } catch (FlooringMasteryValidationException e) {
             view.displayMessage(e.getMessage());
         }

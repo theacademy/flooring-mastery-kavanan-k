@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,Jude,KY,6.00,Carpet,245678,2.25,2.10,552775.50,515923.80,64121.96,1132821.26
